@@ -1,4 +1,4 @@
-package com.javarush.baliuk;
+package com.javarush.balyuke;
 
 public enum DupKeyOption {
     OVERWRITE, DISCARD

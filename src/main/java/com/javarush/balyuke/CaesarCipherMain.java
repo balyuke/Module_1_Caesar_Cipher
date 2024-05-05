@@ -1,4 +1,4 @@
-package com.javarush.baliuk;
+package com.javarush.balyuke;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,19 +6,51 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.javarush.balyuke.Utils.*;
 import static java.lang.System.*;
 
 public class CaesarCipherMain {
 
-    public static final String alph = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\"\':-! ?";
+    public static final String ALPHABET_RU_LARGE = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+    public static final String ALPHABET_RU_SMALL = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+    public static final String ALPHABET_DIGITS = "0123456789";
+    public static final String ALPHABET_PUNCTUATION_MARKS = ".,\"\':-! ?";
+    //public static final String ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\"\':-! ?";
+    public static final String ALPHABET = ALPHABET_RU_LARGE + ALPHABET_RU_SMALL + ALPHABET_PUNCTUATION_MARKS;
+    public static final String PRINT_WORK = "WORK()!";
+    public static final String PRINT_DEMO = "DEMO()!";
+    public static final String PRINT_CHECK_FILE = "Check file ";
+    public static final String PRINT_ENTER_OFFSET_VALUE = "\nEnter Offset value: ";
+    public static final String PRINT_MY_EXCEPTION = "My Exception: ";
+    public static final String PRINT_ENTER_THE_TEXT_MESSAGE_TO_BE_ENCRYPTED = "Enter the text Message to be encrypted: ";
     //public static final String alph = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\"\':-! ?";
-    public static int lenAlph = 75;
+    public static int LEN_ALPH = 75;
 
 
-    public static String startPath = new File("").getAbsolutePath();
-    public static String inFile = startPath.concat( "\\src\\main\\resources\\files\\inFile.txt");
-    public static String outFile = startPath.concat( "\\src\\main\\resources\\files\\outFile.txt");
-    public static String freqFile = startPath.concat( "\\src\\main\\resources\\files\\freq.txt");
+    public static String START_PATH_PROJECT = new File("").getAbsolutePath();
+    public static String DEMO_IN_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\demoInFile.txt");
+    public static String DEMO_OUT_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\demoOutFile.txt");
+    public static String FREQUENCY_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\freq.txt");
+
+    public static final String[] MENU_OPTIONS = {
+            "\nChoose mode working",
+            "1- Manual",
+            "2- File",
+            "3- Exit",
+    };
+
+    public static final String PRINT_START_APP = "\nStart CAESER CIPHER...";
+    public static final String PRINT_STOP_APP = "Stop CAESER CIPHER...\n";
+
+    public static final String PRINT_ENCRYPTED_TEXT = "\nEncrypted text : ";
+    public static final String PRINT_DECRYPTED_TEXT = "\nDecrypted text : ";
+
+    public static final String PRINT_CHARS_ALPHABET = "Use char from alphabet: ";
+    public static final String PRINT_HINT_OFFSET = "\nValue offset must between 1 and ";
+
+    public static final String PRINT_CHOOSE_OPTION = "Choose your option : ";
+
+    public static final String PRINT_UNRECOGNIZED_INPUT_OPTION = "\nUnrecognized input option: ";
 
     private static final Map<String, Double> EXPECTED_MAP_DISCARD = Stream.of(new String[][]{
             {"А", String.valueOf(7.64)},
@@ -34,7 +66,7 @@ public class CaesarCipherMain {
         for (char character : message.toCharArray()) {
             if (character != ' ') {
                 int originalAlphabetPosition = character - 'а';
-                int newAlphabetPosition = (originalAlphabetPosition + offset) % lenAlph;
+                int newAlphabetPosition = (originalAlphabetPosition + offset) % LEN_ALPH;
                 char newCharacter = (char) ('а' + newAlphabetPosition);
                 result.append(newCharacter);
             } else {
@@ -47,35 +79,30 @@ public class CaesarCipherMain {
 
     // following same algorithm but in reverse way, plaintext becomes ciphertext and vice versa
     public static String decoding(String message, int offset) {
-        return encoding(message, lenAlph - (offset % lenAlph));
+        return encoding(message, LEN_ALPH - (offset % LEN_ALPH));
     }
 
     public static void printMenu(String[] options){
         for (String option : options){
             System.out.println(option);
         }
-        System.out.print("Choose your option : ");
+        System.out.print(PRINT_CHOOSE_OPTION);
     }
 
 
     public static void main(String[] args)  {
-        lenAlph = alph.length();
+        LEN_ALPH = ALPHABET.length();
         headerMenu();
 
-        String[] options = {"\nChoose mode working",
-                "1- Manual",
-                "2- File",
-                "3- Exit",
-        };
 
         Scanner sc = new Scanner(System.in);
         String input = null;
 
         int option = 1;
-        printMenu(options);
+        printMenu(MENU_OPTIONS);
         while(sc.hasNext() && !(input = sc.next()).equals("3")) {
 
-            if (Utils.isInt(input)) {
+            if (isInt(input)) {
                 option = Integer.parseInt(input);
                 switch (option){
                     case 1:
@@ -86,22 +113,23 @@ public class CaesarCipherMain {
                             inputFile();
                         }
                         catch (IOException e) {
-                            System.out.println("My Exception: "+ e.getMessage());
+                            System.out.println(PRINT_MY_EXCEPTION + e.getMessage());
                         }
                         break;
                     case 3:
                         exit(0);
                     default:
-                        System.err.println ( "method main: Unrecognized input option: " + option );
+                        System.err.println (PRINT_UNRECOGNIZED_INPUT_OPTION + option );
                         break;
                 }
             } else  {
-                System.err.println ( "Unrecognized input option: " + input );
+                System.err.println (PRINT_UNRECOGNIZED_INPUT_OPTION +  input );
             }
-            printMenu(options);
+            printMenu(MENU_OPTIONS);
         }
 
-        System.out.println("Stop CAESER CIPHER...\n");
+
+        System.out.println(PRINT_STOP_APP);
         sc.close(); // Scanner is closed
     }
 
@@ -112,28 +140,27 @@ public class CaesarCipherMain {
         String input = null;
         try  {
             int offset = 0;
-            System.out.print("\nEnter Offset value: ");
+            System.out.print(PRINT_ENTER_OFFSET_VALUE);
             while(scanner.hasNext()) {
                 input = scanner.nextLine();
-                if (Utils.isInt(input)) {
+                if (isInt(input)) {
                     offset = Integer.parseInt(input);
-                    if (offset >= 0 && offset < lenAlph) break;
-                    else System.err.println ("\nValue Offset must between 1 and " + (lenAlph-1)+ "\n");
+                    if (offset >= 0 && offset < LEN_ALPH) break;
+                    else System.err.println (PRINT_HINT_OFFSET + (LEN_ALPH -1)+ "\n");
                 }
                 else
-                    System.err.println ( "\nmethod inputManual Unrecognized Offset option: " + input + "\n");
-                System.out.print("\nEnter Offset value: ");
+                    System.err.println ( PRINT_UNRECOGNIZED_INPUT_OPTION + input + "\n");
+                System.out.print(PRINT_ENTER_OFFSET_VALUE);
             }
-            System.out.print("Enter the text Message to be encrypted: ");
+            System.out.print(PRINT_ENTER_THE_TEXT_MESSAGE_TO_BE_ENCRYPTED);
             String message = scanner.nextLine();
             String encryptMessage = encoding(message, offset);
-            System.out.println("Encrypted Text : " + encryptMessage/*encoding(message, offset)*/);
-            System.out.print("Decryptd Text : ");
-            System.out.print(decoding(encryptMessage/*encoding(message, offset)*/, offset));
+            System.out.println(PRINT_ENCRYPTED_TEXT + encryptMessage);
+            System.out.print(PRINT_DECRYPTED_TEXT + decoding(encryptMessage, offset));
             System.out.println();
         }
         catch (NoSuchElementException e){
-            System.out.println("method inputManual " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -142,9 +169,9 @@ public class CaesarCipherMain {
 
 
 
-        ArrayList<String> stringsInFile  = Utils.readFileToArrayList(inFile);
+        ArrayList<String> stringsInFile  = readFileToArrayList(DEMO_IN_FILE);
         if (stringsInFile.isEmpty() || stringsInFile == null || stringsInFile.size() < 2) {
-            System.out.println("Check file "+inFile);
+            System.out.println(PRINT_CHECK_FILE + DEMO_IN_FILE);
             return;
         }
         String input = null;
@@ -175,52 +202,52 @@ public class CaesarCipherMain {
         stringsInFile.remove(input);
         System.out.println(stringsInFile);
 
-        ArrayList<String> stringsOutFile  = Utils.readFileToArrayList(outFile);
+        ArrayList<String> stringsOutFile  = readFileToArrayList(DEMO_OUT_FILE);
         for (String str : stringsInFile){
             String message = str;
             System.out.print("\nInput the text message to be encrypted: "+message);
             String encryptMessage = encoding(message, offset);
             stringsOutFile.add(encryptMessage);
-            System.out.println("\nEncrypted Text : " + encryptMessage);
-            System.out.print("\nDecryptd Text : ");
+            System.out.println(PRINT_ENCRYPTED_TEXT + encryptMessage);
+            System.out.print(PRINT_DECRYPTED_TEXT);
             System.out.print(decoding(encryptMessage, offset));
             System.out.println();
         }
 
-        Utils.clearFileContent(outFile);
-        Utils.writeFileFromArrayList(stringsOutFile, outFile, false);
+        clearFileContent(DEMO_OUT_FILE);
+        writeFileFromArrayList(stringsOutFile, DEMO_OUT_FILE, false);
 
     }
 
 
 
     private static void headerMenu() {
-        System.out.println("\nStart CAESER CIPHER...");
-        System.out.println("Use char from alphabet: ");
-        System.out.println(Utils.addSpaceAfterChar(alph));
-        System.out.println("Value offset must between 1 and " + (lenAlph-1));
+        System.out.println(PRINT_START_APP);
+        System.out.println(PRINT_CHARS_ALPHABET);
+        System.out.println(addSpaceAfterChar(ALPHABET));
+        System.out.println(PRINT_HINT_OFFSET + (LEN_ALPH -1));
     }
 
     private static void demo(){
-        System.out.println("DEMO()!");
-        System.out.println(alph);
-        lenAlph = alph.length();
-        System.out.println(lenAlph);
+        System.out.println(PRINT_DEMO);
+        System.out.println(ALPHABET);
+        LEN_ALPH = ALPHABET.length();
+        System.out.println(LEN_ALPH);
 
-        //Utils.printFile(fileFreq);
+        //printFile(fileFreq);
         // загрука
-        //Map<String, Double> mapFreq = Utils.byBufferedReader(fileFreq, "\t", DupKeyOption.OVERWRITE);
+        //Map<String, Double> mapFreq = byBufferedReader(fileFreq, "\t", DupKeyOption.OVERWRITE);
         //mapFreq.forEach((key, value) -> System.out.println(key + " " + value));
 
         //String msg = "мама?";
         //String s = "momй";
         //System.out.println(msg);
-        //String msg1 = Utils.verifyText(s) ? s : s.replaceAll("[^а-яА-Я.,'! ?:-]", "");
+        //String msg1 = verifyText(s) ? s : s.replaceAll("[^а-яА-Я.,'! ?:-]", "");
         //System.out.println("msg1=" + msg1);
     }
 
     private static void work(){
-        System.out.println("WORK()!");
+        System.out.println(PRINT_WORK);
     }
 
 }

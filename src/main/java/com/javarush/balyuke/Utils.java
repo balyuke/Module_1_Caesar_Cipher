@@ -1,4 +1,4 @@
-package com.javarush.baliuk;
+package com.javarush.balyuke;
 
 import java.io.*;
 import java.util.ArrayList;
