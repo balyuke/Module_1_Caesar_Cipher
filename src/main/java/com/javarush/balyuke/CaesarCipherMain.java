@@ -141,14 +141,49 @@ public class CaesarCipherMain {
             System.out.println(PRINT_BRUTE_FORCE);
             List<String> listBruteForceConsole =  bruteForceConsole(encryptMessage, ALPHABET_BRUTE);
             System.out.println(PRINT_ENCRYPTED_TEXT + encryptMessage + PRINT_COUNT_OFFSET + ALPHABET_BRUTE.length());
-            for(int i = 0; i < listBruteForceConsole.size(); i++)
-                System.out.println(PRINT_TRY_OFFSET + (listBruteForceConsole.size() - i - 1) + PRINT_DECRYPTED_TEXT + listBruteForceConsole.get(i));
+            for(int i = 0; i < listBruteForceConsole.size(); i++) {
+                System.out.println(PRINT_TRY_OFFSET + (listBruteForceConsole.size() - i - 1) + PRINT_DECRYPTED_TEXT + listBruteForceConsole.get(i) + "   ...i=" + i);
+                //if (i == 38) {
+                    String s = replaceSymbol(listBruteForceConsole.get(i), ALPHABET_PUNCTUATION_MARKS);
+                    List<String> words = readFileToListString(DICTIONARY_FILE);
+                    //boolean isNormalMessage = containsWordsJava8(s, words);
+                    int countWords = countsWords(s, words);
+                    out.println("... " + s + " ...countWords=" + countWords);
+                //}
+            }
 
             System.out.println();
         }
         catch (NoSuchElementException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String replaceSymbol(String str, String alphabetMarks) {
+        //out.println("start: "+str);
+//        for (int i = 0; i < alphabetMarks.length(); i++) {
+//            if (alphabetMarks.charAt(i) == '?')
+//                result = result.replaceAll(String.valueOf(alphabetMarks.charAt(i)), " ");
+//            else
+//                result = result.replaceAll(""+String.valueOf("\\"+alphabetMarks.charAt(i)), " ");
+//            result = result.replaceAll("  ", " ");
+//        }
+        String s1 = str.replace('?',' ');
+        String s2 = s1.replaceAll("  "," ");
+        String s3 = s2.replace(',',' ');
+        String s4 = s3.replaceAll("  "," ");
+        String s5 = s4.replace('.',' ');
+        String s6 = s5.replaceAll("  "," ");
+        String s7 = s6.replace(':',' ');
+        String s8 = s7.replaceAll("  "," ");
+        String s9 = s8.replace('!',' ');
+        String s10 = s9.replaceAll("  "," ");
+        String s11 = s10.replace('-',' ');
+        String s12 = s11.replaceAll("  "," ");
+
+        String result= s11;
+        //out.println("end: "+result);
+        return result;
     }
 
     private static void inputFile() throws IOException {

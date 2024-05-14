@@ -1,10 +1,10 @@
 package com.javarush.balyuke;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class Utils {
     public static Map toMap(Object[] keys, Object[] values) {
@@ -160,6 +160,44 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String> readFileToListString(String fileName){
+        List<String> words = null;
+        try {
+            words = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return words;
+    }
+
+    public static boolean containsWordsJava8(String inputString, List<String> wordsList) {
+        List<String> inputStringList = Arrays.asList(inputString.split(" "));
+        //List<String> wordsList = words;
+
+        return wordsList.stream().allMatch(inputStringList::contains);
+    }
+
+
+    public static boolean containsWordsArray(String inputString, List<String> wordsList) {
+        List<String> inputStringList = Arrays.asList(inputString.split(" "));
+
+        return inputStringList.containsAll(wordsList);
+    }
+
+    public static int countsWords(String inputString, List<String> wordsList) {
+        int spacesInputString = inputString.split(" ").length - 1;
+        int countWordsInDict = 0;
+        //System.out.println("spaces="+spacesInputString);
+        for (String word : wordsList) {
+            if (inputString.contains(word)) {
+                countWordsInDict++;
+                if (countWordsInDict == spacesInputString)
+                    break;
+            }
+        }
+        return countWordsInDict;
     }
 
 

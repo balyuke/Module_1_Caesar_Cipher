@@ -29,6 +29,7 @@ public class Constants {
     public static String DEMO_IN_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\demoInFile.txt");
     public static String DEMO_OUT_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\demoOutFile.txt");
     public static String FREQUENCY_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\freq.txt");
+    public static String DICTIONARY_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\dict.txt");
 
     public static final String[] MENU_OPTIONS = {
             "\nChoose mode working",
