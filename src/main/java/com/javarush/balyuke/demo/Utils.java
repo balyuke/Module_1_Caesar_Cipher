@@ -1,4 +1,4 @@
-package com.javarush.balyuke;
+package com.javarush.balyuke.demo;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,32 +28,6 @@ public class Utils {
 
         return map;
     }
-
-
-    public static Map<String, Double> byBufferedReader(String filePath, String delimeter, DupKeyOption dupKeyOption) {
-        HashMap<String, Double> map = new HashMap<>();
-        String line;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            while ((line = reader.readLine()) != null) {
-                String[] keyValuePair = line.split(delimeter, 2);
-                if (keyValuePair.length > 1) {
-                    String key = keyValuePair[0];
-                    Double value = Double.valueOf(keyValuePair[1]);
-                    if (DupKeyOption.OVERWRITE == dupKeyOption) {
-                        map.put(key, value);
-                    } else if (DupKeyOption.DISCARD == dupKeyOption) {
-                        map.putIfAbsent(key, value);
-                    }
-                } else {
-                    System.out.println("No Key:Value found in line, ignoring: " + line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return map;
-    }
-
 
     public static void printFile(String fileName){
         try {
