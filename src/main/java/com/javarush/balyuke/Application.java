@@ -8,19 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.javarush.balyuke.demo.CaesarCipherMain.printMenu;
+import static com.javarush.balyuke.demo.Utils.printMenu;
 import static com.javarush.balyuke.consoleui.constants.ConstantsPrint.PRINT_UNRECOGNIZED_INPUT_OPTION;
 import static java.lang.System.exit;
 
 public class Application {
 
+    // TODO Try implement swing interface
     private static Map<Integer, Dialogue> dialogs = new HashMap<>();
     static {
         dialogs.put(1, new ConsoleDialogue());
         dialogs.put(2, new BenDialogue());
     }
 
-    public static final String[] START_MENU = {
+    protected static final String[] START_MENU = {
             "\nChoose mode working",
             "0 - Exit",
             "1 - Console Dialogue",
@@ -34,7 +35,7 @@ public class Application {
         printMenu(START_MENU);
         while(scanner.hasNext() && !(input = scanner.next()).equals("0")) {
 
-            int dialogNumber = Integer.parseInt(input);;
+            int dialogNumber = Integer.parseInt(input);
 
             if (dialogs.containsKey(dialogNumber)) {
                 Dialogue dialogue = dialogs.getOrDefault(dialogNumber, new BenDialogue());

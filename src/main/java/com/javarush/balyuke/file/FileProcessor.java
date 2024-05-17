@@ -2,8 +2,13 @@ package com.javarush.balyuke.file;
 
 import com.javarush.balyuke.file.exception.FileProcessingException;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileProcessor {
@@ -40,9 +45,25 @@ public class FileProcessor {
     public void  appendToFile(String fileName, String content) {
         try {
             Path filePath = Path.of(fileName);
-            Files.writeString(filePath, content, FILE_WRITE_OPTIONS);
+            //System.out.println("Debug...method FileProcessor.appendToFile:  " + content);
+            Files.writeString(filePath, content,/* StandardCharsets.UTF_8,*/ FILE_WRITE_OPTIONS);
         } catch (IOException | InvalidPathException ex) {
             throw new FileProcessingException(ex.getMessage(), ex);
         }
     }
+
+
+    public static void writeFileFromArrayList(String fileName, ArrayList<String> content, boolean append) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, append)))
+        {
+            for (String str : content) {
+                writer.write(str);
+                writer.newLine();
+            }
+            System.out.println("ArrayList written to file successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

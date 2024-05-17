@@ -14,6 +14,7 @@ public class ConstantsFiles {
 
     public static String FREQUENCY_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\freq.txt");
 
+    // TODO Create method for loading new words to dictionary file
     public static String DICTIONARY_FILE = START_PATH_PROJECT.concat( "\\src\\main\\resources\\files\\dict.txt");
 
     public static Path DIR_WORK = Paths.get("D:\\projects\\java\\jr\\Module_1_Caesar_Cipher\\src\\main\\resources\\files\\");

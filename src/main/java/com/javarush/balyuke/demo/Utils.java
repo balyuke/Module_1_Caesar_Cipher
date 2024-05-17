@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static com.javarush.balyuke.consoleui.constants.ConstantsPrint.PRINT_CHOOSE_OPTION;
+
 public class Utils {
     public static Map toMap(Object[] keys, Object[] values) {
         int keysSize = (keys != null) ? keys.length : 0;
@@ -123,7 +125,7 @@ public class Utils {
         }
     }
 
-    public static void writeFileFromArrayList(ArrayList<String> stringsOutFile, String outFile, boolean append) {
+    public static void writeFileFromArrayList(String outFile, ArrayList<String> stringsOutFile, boolean append) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outFile, append)))
         {
             for (String str : stringsOutFile) {
@@ -146,34 +148,73 @@ public class Utils {
         return words;
     }
 
-    public static boolean containsWordsJava8(String inputString, List<String> wordsList) {
-        List<String> inputStringList = Arrays.asList(inputString.split(" "));
-        //List<String> wordsList = words;
+    public static Set<String> readFileToSetString(String fileName){
+        List<String> words = null;
+        try {
+            words = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        return wordsList.stream().allMatch(inputStringList::contains);
+        return new HashSet<String>(words);
     }
 
-
-    public static boolean containsWordsArray(String inputString, List<String> wordsList) {
-        List<String> inputStringList = Arrays.asList(inputString.split(" "));
-
-        return inputStringList.containsAll(wordsList);
+    public static Set<String> getSetString(String s){
+        return new HashSet<String>(Arrays.asList(s.split(" ")));
     }
 
-    public static int countsWords(String inputString, List<String> wordsList) {
-        int spacesInputString = inputString.split(" ").length - 1;
-        int countWordsInDict = 0;
-        //System.out.println("spaces="+spacesInputString);
-        for (String word : wordsList) {
-            if (inputString.contains(word)) {
-                countWordsInDict++;
-                if (countWordsInDict == spacesInputString)
+    public static Set<String> getSetString (List<String> list){
+        return new HashSet<String>(list);
+    }
+
+    public static int countsWordsSet(Set<String> inputList, Set<String> wordsList) {
+        int sizeInputList = inputList.size();
+        int countEqualMatches = 0;
+        for(String a : inputList){
+            for(String b : wordsList){
+                if(a.equals(b))
+                    countEqualMatches++;
+                if (countEqualMatches == sizeInputList)
                     break;
             }
         }
-        return countWordsInDict;
+        //System.out.println(countEqualMatches);
+        return countEqualMatches;
     }
 
 
+    public static void printMenu(String[] options){
+        for (String option : options){
+            System.out.println(option);
+        }
+        System.out.print(PRINT_CHOOSE_OPTION);
+    }
+
+    // TODO Rewrite method replaceSymbol(String str, String alphabetMarks)
+    public static String replaceSymbol(String str, String alphabetMarks) {
+        //out.println("start: "+str);
+//        for (int i = 0; i < alphabetMarks.length(); i++) {
+//            if (alphabetMarks.charAt(i) == '?')
+//                result = result.replaceAll(String.valueOf(alphabetMarks.charAt(i)), " ");
+//            else
+//                result = result.replaceAll(""+String.valueOf("\\"+alphabetMarks.charAt(i)), " ");
+//            result = result.replaceAll("  ", " ");
+//        }
+        String s1 = str.replace(".","");
+        String s2 = s1.replaceAll(",","");
+        String s3 = s2.replaceAll("\"","");
+        String s4 = s3.replaceAll("'"," ");
+        String s5 = s4.replace(":","");
+        String s6 = s5.replace("-","");
+        String s7 = s6.replace("!","");
+        String s8 = s7.replaceAll("  "," ");
+        String s9 = s8.replaceAll("\\?","");
+
+        String s10 = s9.replaceAll("\\s+", " ");
+
+        String result= s10;
+        //out.println("end: "+result);
+        return result;
+    }
 }
 

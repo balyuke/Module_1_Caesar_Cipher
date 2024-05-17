@@ -12,20 +12,12 @@ public class CaesarAlphabet {
 
     private static final String ALPHABET_DIGITS = "0123456789";
 
-    public static final String ALPHABET_PUNCTUATION_MARKS = ".,\"\':-! ?";
+    public static final String ALPHABET_PUNCTUATION_MARKS = ".,\"':-! ?";
 
     public static final String ALPHABET = ALPHABET_RU_LARGE + ALPHABET_RU_SMALL + ALPHABET_PUNCTUATION_MARKS;
     public static int LEN_ALPH = 75;
 
     public static final String ALPHABET_BRUTE = ALPHABET_RU_SMALL + ALPHABET_PUNCTUATION_MARKS;
-
-
-    // Declaring ANSI_RESET so that we can reset the color
-    public static final String ANSI_RESET = "\u001B[0m";
-
-    // Declaring the color
-    // Custom declaration
-    public static final String ANSI_GREEN = "\u001B[32m";
 
 
     private static final Character[] RU_ALPHABET_LARGE = {

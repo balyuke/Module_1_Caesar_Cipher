@@ -30,6 +30,8 @@ public class CaeserCoder{
         for (String sourceLine : sourceLines){
             String encryptLine = caeserCipher.encrypt(sourceLine, key);
             fileProcessor.appendToFile(outputFilename, encryptLine);
+            //ArrayList<String> content = new ArrayList<>(Arrays.asList(encryptLine.split("")));
+            //fileProcessor.writeFileFromArrayList(outputFilename, content, false);
         }
     }
 
@@ -43,7 +45,26 @@ public class CaeserCoder{
         for (String sourceLine : sourceLines){
             String decryptLine = caeserCipher.decrypt(sourceLine, key);
             fileProcessor.appendToFile(outputFilename, decryptLine);
+            //ArrayList<String> content = new ArrayList<>(Arrays.asList(decryptLine.split("")));
+            //fileProcessor.writeFileFromArrayList(outputFilename, content, false);
         }
     }
+
+
+    public void decryptBrutoforce(String inputFilename, String outputFilename){
+        validator.validateForReading(inputFilename);
+        validator.validateForWriting(outputFilename);
+
+        List<String> sourceLines = fileProcessor.readFile(inputFilename);
+        for (String sourceLine : sourceLines){
+            String decryptLine = caeserCipher.decryptBrutoforce(sourceLine);
+            fileProcessor.appendToFile(outputFilename, decryptLine);
+            //System.out.println("Debug...method CaesarCoder.decryptBrutoforce:  " + decryptLine);
+            //ArrayList<String> content = new ArrayList<>(Arrays.asList(decryptLine.split("")));
+            //fileProcessor.writeFileFromArrayList(outputFilename, content, false);
+        }
+
+    }
+
 
 }
